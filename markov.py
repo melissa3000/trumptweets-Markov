@@ -71,25 +71,44 @@ def tweet(final_string):
         access_token_key=os.environ["TWITTER_ACCESS_TOKEN_KEY"],
         access_token_secret=os.environ["TWITTER_ACCESS_TOKEN_SECRET"])
 
-    print api.VerifyCredentials()
+    # print api.VerifyCredentials()
 
     tweet_message = final_string[:130]
 
     status = api.PostUpdate(tweet_message)
     print status.text
 
+def tweet_again():
+    filenames = sys.argv[1:]
+    user_input = ''
+    
+    while user_input == "":
+        user_input = raw_input("Hit enter to tweet again [q to quit]: ")
+
+        text = open_and_read_file(filenames)
+
+# Get a Markov chain
+        chains = make_chains(text)
+
+        final_string = make_text(chains)
+
+        tweet(final_string)
+    
+
+tweet_again()
+
 
 # Get the filenames from the user through a command line prompt, ex:
 # python markov.py green-eggs.txt shakespeare.txt
-filenames = sys.argv[1:]
+# filenames = sys.argv[1:]
 
-# Open the files and turn them into one long string
-text = open_and_read_file(filenames)
+# # Open the files and turn them into one long string
+# text = open_and_read_file(filenames)
 
-# Get a Markov chain
-chains = make_chains(text)
+# # Get a Markov chain
+# chains = make_chains(text)
 
-final_string = make_text(chains)
+# final_string = make_text(chains)
 
-# Your task is to write a new function tweet, that will take chains as input
-tweet(final_string)
+# # Your task is to write a new function tweet, that will take chains as input
+# tweet(final_string)
